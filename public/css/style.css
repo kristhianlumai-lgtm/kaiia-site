@@ -106,11 +106,13 @@ a { color: inherit; text-decoration: none; }
 .site-header__logo {
   display: inline-flex;
   align-items: center;
+  flex: 0 0 auto;   /* nunca deixa o flex espremer a logo */
 }
 
 .site-header__logo img {
   height: 67px;
   width: auto;
+  max-width: none;
   display: block;
 }
 
@@ -177,11 +179,36 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Hero ===== */
 .hero {
-  background:
-    linear-gradient(to bottom, rgba(23, 27, 38, 0.08) 0%, rgba(23, 27, 38, 0.2) 55%, rgba(23, 27, 38, 0.5) 100%),
-    url("../assets/fotos/hero-beachclub.jpg") center / cover no-repeat;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   color: var(--white);
   padding: calc(var(--header-height) + 5rem) 0 11.5rem;
+}
+
+/* A foto, com o tratamento aplicado nela e não no texto por cima */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("../assets/fotos/hero-beachclub.jpg") center 78% / cover no-repeat;
+  filter: saturate(1.22) contrast(1.08) brightness(1.06);
+}
+
+/* Véu escuro em cima (onde mora o texto) e leve embaixo (onde mora a casa cheia) */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(23, 27, 38, 0.80) 0%,
+    rgba(23, 27, 38, 0.66) 34%,
+    rgba(23, 27, 38, 0.34) 68%,
+    rgba(23, 27, 38, 0.48) 100%
+  );
 }
 
 .hero__inner {
@@ -250,14 +277,17 @@ a { color: inherit; text-decoration: none; }
 
 .section__lead {
   max-width: 62ch;
-  margin: 0 auto 3rem;
-  text-align: center;
+  margin: 0 0 3rem;   /* alinha pela esquerda do container, junto com o conteúdo abaixo */
+  text-align: left;
   color: #55503f;
   font-size: 1.05rem;
+  line-height: 1.65;
 }
 
+/* Alinha a margem esquerda do texto com a do bloco comparativo logo abaixo */
 #conceito .section__lead {
-  max-width: 48ch;
+  max-width: 900px;
+  margin: 0 auto 3rem;
 }
 
 /* ===== Comparativo ===== */
@@ -613,7 +643,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 700px) {
   :root { --header-height: 72px; }
-  .site-header__logo img { height: 50px; }
+  .site-header__logo img { height: 48px; }
   .site-header__tagline { font-size: 0.8rem; }
 
   .nav-toggle {
@@ -647,8 +677,16 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-@media (max-width: 380px) {
+/* Celulares: a tagline sai antes de a logo precisar encolher */
+@media (max-width: 480px) {
+  :root { --header-height: 66px; }
   .site-header__tagline { display: none; }
+  .site-header__logo img { height: 44px; }
+}
+
+@media (max-width: 380px) {
+  :root { --header-height: 60px; }
+  .site-header__logo img { height: 38px; }
 }
 
 @media (max-width: 640px) {
