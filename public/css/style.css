@@ -275,19 +275,15 @@ a { color: inherit; text-decoration: none; }
   color: var(--white);
 }
 
+/* Centralizado, mas largo: o texto respira e fecha em poucas linhas
+   em vez de virar uma coluna estreita e comprida. */
 .section__lead {
-  max-width: 62ch;
-  margin: 0 0 3rem;   /* alinha pela esquerda do container, junto com o conteúdo abaixo */
-  text-align: left;
-  color: #55503f;
-  font-size: 1.05rem;
-  line-height: 1.65;
-}
-
-/* Alinha a margem esquerda do texto com a do bloco comparativo logo abaixo */
-#conceito .section__lead {
   max-width: 900px;
   margin: 0 auto 3rem;
+  text-align: center;
+  color: #55503f;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 /* ===== Comparativo ===== */
